@@ -5,9 +5,12 @@ export default async function SlugPage(props: { params: { slug: string } }) {
   const content = await getContentBySlug(props.params.slug);
 
   return (
-    <div>
-      <h1>{content.slug}</h1>
+    <>
+      <h1 className="text-4xl font-bold text-center text-gray-800 my-2 w-full">
+        {content.slug}
+      </h1>
+
       <Splitview {...content} />
-    </div>
+    </>
   );
 }
