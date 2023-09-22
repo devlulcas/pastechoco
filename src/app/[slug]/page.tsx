@@ -1,18 +1,13 @@
-import { db } from '@/database/db';
-import { generateUniqueId } from '@/lib/generate-unique-id';
+import { Splitview } from '@/components/split-view';
+import { getContentBySlug } from '@/data/get-content-by-slug';
 
-const getContent = (slug: string) => {
-  return db.get(slug);
-};
-
-export default function SlugPage(props: { params: { slug: string } }) {
-  const content = getContent(props.params.slug);
+export default async function SlugPage(props: { params: { slug: string } }) {
+  const content = await getContentBySlug(props.params.slug);
 
   return (
     <div>
-      {props.params.slug}
-      <p>{generateUniqueId()}</p>
-      {content && <pre>{content}</pre>}
+      <h1>{content.slug}</h1>
+      <Splitview {...content} />
     </div>
   );
 }
