@@ -4,3 +4,4 @@
 - The user should be able to retrieve the information stored in the database using the link.
 - The user should be able to edit the information stored in the database using the link, but only if they're the original user. (attach a cookie to the user's browser linking them to the database entry)
 - The user should be able to delete the information stored in the database using the link, but only if they're the original user. (attach a cookie to the user's browser linking them to the database entry)
+- The cookie should be a JWT

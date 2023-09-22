@@ -1,13 +1,12 @@
 'use server';
 
-import { OWNED_SLUGS_COOKIE_NAME } from '@/constants';
 import { db } from '@/infrastructure/db';
 import { contentTable } from '@/infrastructure/db/schema';
+import { ownedContentCookie } from '@/lib/cookies/owned-content-cookie';
 import { generateMemorableId } from '@/lib/generate-memorable-id';
 import { processAndPurifyMarkdown } from '@/lib/process-markdown';
 import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export async function createNewContentServerAction(
@@ -17,7 +16,7 @@ export async function createNewContentServerAction(
 
   const newSlug = await createNewContent(data);
 
-  appendToOwnedSlugsCookie(newSlug);
+  ownedContentCookie.appendTo(newSlug);
   revalidatePath('/');
   revalidatePath(`/${newSlug}`);
   redirect(`/${newSlug}`);
@@ -66,20 +65,3 @@ function validateNewContentInput(formData: FormData): string {
   return content;
 }
 
-function appendToOwnedSlugsCookie(slug: string): void {
-  const jar = cookies();
-  const currentOwnedSlugs = jar.get(OWNED_SLUGS_COOKIE_NAME)?.value?.split(',');
-  const currentOwnedSlugsSet = new Set(currentOwnedSlugs);
-  
-  currentOwnedSlugsSet.add(slug);
-
-  const currentOwnedSlugsArray = Array.from(currentOwnedSlugsSet);
-
-  const currentOwnedSlugsString = currentOwnedSlugsArray.join(',');
-
-  console.log(OWNED_SLUGS_COOKIE_NAME, currentOwnedSlugsString)
-
-  jar.set(OWNED_SLUGS_COOKIE_NAME, currentOwnedSlugsString, {
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 2),
-  });
-}

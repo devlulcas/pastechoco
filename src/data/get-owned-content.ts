@@ -1,15 +1,14 @@
 'use server';
 
-import { OWNED_SLUGS_COOKIE_NAME } from '@/constants';
 import { db } from '@/infrastructure/db';
 import { contentTable } from '@/infrastructure/db/schema';
+import { ownedContentCookie } from '@/lib/cookies/owned-content-cookie';
 import { processAndPurifyMarkdown } from '@/lib/process-markdown';
 import { Content } from '@/types/content';
 import { inArray } from 'drizzle-orm';
-import { cookies } from 'next/headers';
 
 export async function getOwnedContent(): Promise<Content[]> {
-  const ownedSlugs = getOwnedSlugsCookies();
+  const ownedSlugs = ownedContentCookie.getFrom();
 
   if (ownedSlugs.length === 0) {
     return [];
@@ -40,14 +39,4 @@ export async function getOwnedContent(): Promise<Content[]> {
   });
 }
 
-function getOwnedSlugsCookies(): string[] {
-  const jar = cookies();
 
-  const currentOwnedSlugs = jar.get(OWNED_SLUGS_COOKIE_NAME)?.value?.split(',');
-
-  if (!currentOwnedSlugs) {
-    return [];
-  }
-
-  return currentOwnedSlugs;
-}
