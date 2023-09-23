@@ -24,14 +24,14 @@ export async function createNewContentServerAction(
 
 async function createNewContent(raw: string): Promise<string> {
   const slug = generateMemorableId();
-  const contentInDb = db
+  const results = db
     .select({ slug: contentTable.slug })
     .from(contentTable)
     .where(eq(contentTable.slug, slug))
     .limit(1)
     .get();
 
-  if (contentInDb) {
+  if (results) {
     throw new Error('Slug already exists');
   }
 
@@ -64,4 +64,3 @@ function validateNewContentInput(formData: FormData): string {
 
   return content;
 }
-
