@@ -36,7 +36,7 @@ export default async function HomePage() {
           {ownedContent.map((content) => (
             <li key={content.slug} className="border p-2 w-full rounded">
               <Link
-                className="bg-neutral-200 text-neutral-700 hover:text-neutral-800 border rounded px-2 py-1"
+                className="bg-neutral-200 text-neutral-700 hover:text-neutral-800 border rounded px-2 py-1 mb-2 inline-block"
                 href={content.slug}
               >
                 {content.slug}
