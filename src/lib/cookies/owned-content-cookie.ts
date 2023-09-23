@@ -1,6 +1,10 @@
 import { sign, verify } from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
+type Payload = {
+  ownedSlugs: string[];
+};
+
 const OWNED_SLUGS_COOKIE_NAME = 'owned-slugs';
 
 function getOwnedSlugsCookies(): string[] {
@@ -16,7 +20,7 @@ function getOwnedSlugsCookies(): string[] {
     const currentOwnedSlugsArray = verify(
       currentOwnedSlugs.value,
       process.env.JWT_SECRET as string
-    ) as { ownedSlugs: string[] };
+    ) as Payload;
 
     return currentOwnedSlugsArray.ownedSlugs;
   } catch (error) {
@@ -45,10 +49,14 @@ function appendToOwnedSlugsCookies(slug: string): void {
 
   jar.set(OWNED_SLUGS_COOKIE_NAME, currentOwnedSlugsToken, {
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 2),
+    path: '/',
+    httpOnly: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
   });
 }
 
 export const ownedContentCookie = {
   getFrom: getOwnedSlugsCookies,
   appendTo: appendToOwnedSlugsCookies,
-}
+};
