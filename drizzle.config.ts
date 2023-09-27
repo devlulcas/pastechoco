@@ -7,14 +7,16 @@ config({
 
 const DATABASE_URL = process.env.DATABASE_URL;
 
-if (!DATABASE_URL) {
+const DATABASE_AUTH_TOKEN = process.env.DATABASE_AUTH_TOKEN;
+
+if (!DATABASE_URL || !DATABASE_AUTH_TOKEN) {
   throw new Error('DATABASE_URL is not defined');
 }
 
 export default {
   schema: './src/infrastructure/db',
   out: './drizzle',
-  driver: 'better-sqlite',
+  driver: 'libsql',
   dbCredentials: {
     url: DATABASE_URL,
   },

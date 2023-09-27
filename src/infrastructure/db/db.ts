@@ -1,11 +1,17 @@
-import { drizzle, BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
+import { createClient } from '@libsql/client';
+import { drizzle as drizzleLibSql } from 'drizzle-orm/libsql';
 
-const path = process.env.DATABASE_URL
+const DATABASE_URL = process.env.DATABASE_URL;
 
-if (!path) {
+const DATABASE_AUTH_TOKEN = process.env.DATABASE_AUTH_TOKEN;
+
+if (!DATABASE_URL || !DATABASE_AUTH_TOKEN) {
   throw new Error('DATABASE_URL is not defined');
 }
 
-const sqlite = new Database(path);
-export const db: BetterSQLite3Database = drizzle(sqlite);
+const client = createClient({
+  url: DATABASE_URL,
+  authToken: DATABASE_AUTH_TOKEN,
+});
+
+export const db = drizzleLibSql(client);

@@ -1,6 +1,6 @@
-import { micromark } from 'micromark';
-import { gfm, gfmHtml } from 'micromark-extension-gfm';
-import sanitizeHtml from 'sanitize-html';
+import { micromark } from "micromark";
+import { gfm, gfmHtml } from "micromark-extension-gfm";
+import sanitizeHtml from "sanitize-html";
 
 type HTMLString = string;
 

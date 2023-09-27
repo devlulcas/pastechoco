@@ -1,1 +1,1 @@
-export { generateMemorableId } from './generate-memorable-id';
+export { generateMemorableId } from "./generate-memorable-id";

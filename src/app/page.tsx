@@ -1,6 +1,6 @@
-import { createNewContentServerAction } from '@/data/create-new-content-server-action';
-import { getOwnedContent } from '@/data/get-owned-content';
-import Link from 'next/link';
+import { createNewContentServerAction } from "@/data/create-new-content-server-action";
+import { getOwnedContent } from "@/data/get-owned-content";
+import Link from "next/link";
 
 export default async function HomePage() {
   const ownedContent = await getOwnedContent();

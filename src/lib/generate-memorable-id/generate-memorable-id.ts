@@ -1,9 +1,9 @@
-import { ADJECTIVES, ADVERBS, NOUNS, VERBS } from './sentences';
+import { ADJECTIVES, ADVERBS, NOUNS, VERBS } from "./sentences";
 
 function generateFourDigitNumericId(): string {
   const randomBuffer = crypto.getRandomValues(new Uint32Array(1));
   const randomNumber = randomBuffer[0] % 10000;
-  return randomNumber.toString().padStart(4, '0');
+  return randomNumber.toString().padStart(4, "0");
 }
 
 function getRandomWord(arr: string[]): string {

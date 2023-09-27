@@ -1,1 +1,1 @@
-export {ownedContentCookie} from "./owned-content-cookie"
+export { ownedContentCookie } from "./owned-content-cookie";

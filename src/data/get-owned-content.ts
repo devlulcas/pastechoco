@@ -1,11 +1,11 @@
-'use server';
+"use server";
 
-import { db } from '@/infrastructure/db';
-import { contentTable } from '@/infrastructure/db/schema';
-import { ownedContentCookie } from '@/lib/cookies/owned-content-cookie';
-import { processAndPurifyMarkdown } from '@/lib/process-markdown';
-import { Content } from '@/types/content';
-import { inArray } from 'drizzle-orm';
+import { db } from "@/infrastructure/db";
+import { contentTable } from "@/infrastructure/db/schema";
+import { ownedContentCookie } from "@/lib/cookies/owned-content-cookie";
+import { processAndPurifyMarkdown } from "@/lib/process-markdown";
+import { Content } from "@/types/content";
+import { inArray } from "drizzle-orm";
 
 export async function getOwnedContent(): Promise<Content[]> {
   const ownedSlugs = ownedContentCookie.getFrom();
@@ -38,5 +38,3 @@ export async function getOwnedContent(): Promise<Content[]> {
     };
   });
 }
-
-
